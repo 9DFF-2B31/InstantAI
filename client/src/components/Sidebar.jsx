@@ -1,5 +1,5 @@
-import { useClerk, useUser } from '@clerk/clerk-react'
-import { Eraser, FileText, Hash, House, Icon, Image, Scissors, SquarePen, Users } from 'lucide-react'; import React from 'react'
+import { Protect, SignedOut, useClerk, useUser } from '@clerk/clerk-react'
+import { Eraser, FileText, Hash, House, Icon, Image, LogOut, Scissors, SquarePen, Users } from 'lucide-react'; import React from 'react'
 import { NavLink } from 'react-router-dom';
 
 const navItems = [
@@ -26,28 +26,42 @@ const Sidebar = ({ sidebar, setSidebar }) => {
                 <h1 className='mt-1 text-center'>{user.fullName}</h1>
                 <div>
                     <div className='px-6 mt-5 text-sm text-gray-600 font-medium'>
-                    {navItems.map(({ to, label, Icon }) => (
-                        <NavLink
-                            key={to}
-                            to={to}
-                            end={to === '/ai'}
-                            onClick={() => setSidebar(false)}
-                            className={({ isActive }) =>
-                                `px-3.5 py-2.5 flex items-center gap-3 rounded ${isActive ? 'bg-gradient-to-r from-[#3C81F6] to-[#9234EA] text-white' : ''
-                                }`
-                            }
-                        >
-                            {({ isActive }) => (
-                                <>
-                                    <Icon className={`w-4 h-4 ${isActive ? 'text-white' : ''}`} />
-                                    {label}
-                                </>
-                            )}
-                        </NavLink>
-                    ))}
+                        {navItems.map(({ to, label, Icon }) => (
+                            <NavLink
+                                key={to}
+                                to={to}
+                                end={to === '/ai'}
+                                onClick={() => setSidebar(false)}
+                                className={({ isActive }) =>
+                                    `px-3.5 py-2.5 flex items-center gap-3 rounded ${isActive ? 'bg-gradient-to-r from-[#3C81F6] to-[#9234EA] text-white' : ''
+                                    }`
+                                }
+                            >
+                                {({ isActive }) => (
+                                    <>
+                                        <Icon className={`w-4 h-4 ${isActive ? 'text-white' : ''}`} />
+                                        {label}
+                                    </>
+                                )}
+                            </NavLink>
+                        ))}
                     </div>
 
                 </div>
+
+            </div>
+            <div className='w-full border-t border-gray-200 p-4 px-7 flex items-center justify-between'>
+                <div onClick={openUserProfile} className='flex gap-2 items-center cursor-pointer '>
+                    <img src={user.imageUrl} alt="" className='w-8 rounded-full'  />
+                    <div>
+                        <h1 className='text-sm font-medium'>{user.fullName}</h1>
+                        <p className='text-xs  text-gray-500'>
+                            <Protect plan='premium' fallback="Free"> Premium</Protect> Plan </p>
+                    </div>
+                     
+                </div>
+                <LogOut onClick={signOut} className='w-4.5 text-gray-400 hover:text-gray-700 transition cursor-pointer' />
+
             </div>
         </div >
     )
